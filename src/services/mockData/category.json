@@ -1,0 +1,56 @@
+[
+  {
+    "id": "1",
+    "name": "Work",
+    "color": "#3b82f6",
+    "icon": "Briefcase"
+  },
+  {
+    "id": "2",
+    "name": "Personal",
+    "color": "#10b981",
+    "icon": "User"
+  },
+  {
+    "id": "3",
+    "name": "Health",
+    "color": "#ef4444",
+    "icon": "Heart"
+  },
+  {
+    "id": "4",
+    "name": "Recreation",
+    "color": "#f59e0b",
+    "icon": "Mountain"
+  },
+  {
+    "id": "5",
+    "name": "Home",
+    "color": "#8b5cf6",
+    "icon": "Home"
+  },
+  {
+    "id": "6",
+    "name": "Travel",
+    "color": "#06b6d4",
+    "icon": "Plane"
+  },
+  {
+    "id": "7",
+    "name": "Finance",
+    "color": "#84cc16",
+    "icon": "DollarSign"
+  },
+  {
+    "id": "8",
+    "name": "Education",
+    "color": "#ec4899",
+    "icon": "GraduationCap"
+  },
+  {
+    "id": "9",
+    "name": "Shopping",
+    "color": "#f97316",
+    "icon": "ShoppingBag"
+  }
+]
