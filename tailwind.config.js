@@ -42,9 +42,13 @@ export default {
         'neu-light': '8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff',
         'neu-dark': '8px 8px 16px #0a0e13, -8px -8px 16px #1a202c'
       },
-      borderRadius: { 
+borderRadius: { 
         'xl': '0.75rem', 
         '2xl': '1rem' 
+      },
+      cursor: {
+        'grab': 'grab',
+        'grabbing': 'grabbing'
       }
     },
   },

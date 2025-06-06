@@ -5,7 +5,7 @@ import ApperIcon from '@/components/ApperIcon';
 import { format, isToday, parseISO, isPast } from 'date-fns';
 import Text from '@/components/atoms/Text';
 
-const TaskCard = ({ task, categories, onToggleComplete, onEdit, onDelete }) => {
+const TaskCard = ({ task, categories, onToggleComplete, onEdit, onDelete, dragHandleProps, isDragging }) => {
   const getPriorityColor = (priority) => {
     switch (priority) {
       case 'high': return 'bg-red-500';
@@ -39,21 +39,29 @@ const TaskCard = ({ task, categories, onToggleComplete, onEdit, onDelete }) => {
 
   const dateStatus = getDateStatus(task.dueDate);
 
-  return (
+return (
     <motion.div
       layout
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
-      className={`p-4 rounded-lg border transition-all duration-200 hover:shadow-md ${
-        task.completed
+      className={`p-4 rounded-lg border transition-all duration-200 hover:shadow-md cursor-default ${
+        isDragging 
+          ? 'shadow-2xl bg-white dark:bg-surface-800 border-primary transform rotate-2 scale-105' 
+          : task.completed
           ? 'bg-surface-50 dark:bg-surface-700/50 border-surface-200 dark:border-surface-600'
           : 'bg-white dark:bg-surface-800 border-surface-200 dark:border-surface-600 hover:border-primary/50'
       }`}
     >
-      <div className="flex items-start space-x-3">
+<div className="flex items-start space-x-3">
+        <div 
+          {...dragHandleProps}
+          className="flex items-center justify-center w-6 h-6 mt-1 cursor-grab active:cursor-grabbing hover:bg-surface-100 dark:hover:bg-surface-700 rounded transition-colors"
+          title="Drag to reorder"
+        >
+          <ApperIcon name="GripVertical" size={14} className="text-surface-400 dark:text-surface-500" />
+        </div>
         <Checkbox checked={task.completed} onChange={() => onToggleComplete(task.id)} className="mt-1" />
-
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between">
             <div className="flex-1">

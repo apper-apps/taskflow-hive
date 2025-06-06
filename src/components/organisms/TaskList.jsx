@@ -1,11 +1,11 @@
 import React from 'react';
 import { AnimatePresence } from 'framer-motion';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Card from '@/components/atoms/Card';
 import Button from '@/components/atoms/Button';
 import ApperIcon from '@/components/ApperIcon';
 import TaskCard from '@/components/molecules/TaskCard';
 import Text from '@/components/atoms/Text';
-
 const TaskList = ({ 
   tasks, 
   categories, 
@@ -13,8 +13,17 @@ const TaskList = ({
   onDeleteTask, 
   onUpdateTask, 
   setShowAddForm, 
-  handleEditTask 
+  handleEditTask,
+  onReorderTasks 
 }) => {
+  const handleDragEnd = (result) => {
+    if (!result.destination) return;
+    
+    const { source, destination } = result;
+    if (source.index === destination.index) return;
+    
+    onReorderTasks(source.index, destination.index);
+  };
   return (
     <Card>
       <div className="p-6 border-b border-surface-200 dark:border-surface-700">
@@ -39,21 +48,49 @@ const TaskList = ({
               Add Task
             </Button>
           </div>
-        ) : (
-          <div className="space-y-3">
-            <AnimatePresence>
-              {tasks.map((task) => (
-                <TaskCard
-                  key={task.id}
-                  task={task}
-                  categories={categories}
-                  onToggleComplete={onToggleComplete}
-                  onDelete={onDeleteTask}
-                  onEdit={handleEditTask}
-                />
-              ))}
-            </AnimatePresence>
-          </div>
+) : (
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="tasks">
+              {(provided, snapshot) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className={`space-y-3 transition-colors duration-200 ${
+                    snapshot.isDraggingOver ? 'bg-primary/5 rounded-lg p-2' : ''
+                  }`}
+                >
+                  <AnimatePresence>
+                    {tasks.map((task, index) => (
+                      <Draggable key={task.id} draggableId={task.id} index={index}>
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            className={`transition-transform duration-200 ${
+                              snapshot.isDragging 
+                                ? 'rotate-2 scale-105 shadow-lg' 
+                                : 'hover:scale-[1.02]'
+                            }`}
+                          >
+                            <TaskCard
+                              task={task}
+                              categories={categories}
+                              onToggleComplete={onToggleComplete}
+                              onDelete={onDeleteTask}
+                              onEdit={handleEditTask}
+                              dragHandleProps={provided.dragHandleProps}
+                              isDragging={snapshot.isDragging}
+                            />
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                  </AnimatePresence>
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
         )}
       </div>
     </Card>

@@ -45,6 +45,12 @@ class TaskService {
     const deleted = this.tasks.splice(index, 1)[0]
     return { ...deleted }
   }
+async reorderTasks(sourceIndex, destinationIndex) {
+    await this.delay()
+    const [removed] = this.tasks.splice(sourceIndex, 1)
+    this.tasks.splice(destinationIndex, 0, removed)
+    return [...this.tasks]
+  }
 
   delay() {
     return new Promise(resolve => setTimeout(resolve, Math.random() * 300 + 200))
